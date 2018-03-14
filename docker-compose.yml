@@ -11,6 +11,7 @@ services:
       - ./db/target/charset.cnf:/etc/mysql/conf.d/charset.cnf
     environment:
       MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "cruddb"
     ports:
       - "3306:3306"
 
