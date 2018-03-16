@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    build: ./db
+    image: django-crud-db
+    container_name: django-crud-db-container
+    volumes:
+      - "./db/db:/var/lib/mysql"
+      - "./db/log:/var/log/mysql"
+      - ./db/target/charset.cnf:/etc/mysql/conf.d/charset.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "cruddb"
+    ports:
+      - "3306:3306"
+
+  app:
+    build: ./app
+    image: django-crud-app
+    container_name: django-crud-app-container
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
