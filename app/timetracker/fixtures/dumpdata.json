@@ -1,0 +1,44 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$x8Swbb9LWWU0$RHH1+9kdenH9JEM3d9AO7++55LzNwxys0ruU5AlhK58=",
+        "last_login": "2018-03-17T08:01:50.761Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@example.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2018-03-17T08:01:42.520Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "timetracker.project",
+    "pk": 1,
+    "fields": {
+        "name": "Programming",
+        "color": "ff6347"
+    }
+},
+{
+    "model": "timetracker.project",
+    "pk": 2,
+    "fields": {
+        "name": "Sleep",
+        "color": "808080"
+    }
+},
+{
+    "model": "timetracker.project",
+    "pk": 3,
+    "fields": {
+        "name": "Sports",
+        "color": "ffa500"
+    }
+}
+]
