@@ -11,6 +11,9 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=6)
 
+    def __str__(self):
+        return self.name
+
 
 class Task(models.Model):
     """
