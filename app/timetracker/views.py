@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-# Create your views here.
+from .models import Project, Task
 
 
 def index(request):
-    return HttpResponse('Welcome to <b>timetracker.</b>')
+    tasks_list = Task.objects.order_by('start_time')
+    context = {
+        'tasks_list': tasks_list,
+    }
+
+    return render(request, 'timetracker/index.html', context)

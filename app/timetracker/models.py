@@ -28,3 +28,6 @@ class Task(models.Model):
     end_time = models.DateTimeField()
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     content = models.CharField(max_length=200)
+
+    def duration(self):
+        return self.end_time - self.start_time
