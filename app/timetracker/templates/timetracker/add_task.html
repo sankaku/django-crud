@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+{% if error_message %}
+<p><strong>{{error_message}}</strong></p>
+{% endif %}
+
+<form action="{% url 'timetracker:create_task' %}" method="post">
+{% csrf_token %}
+
+
+  <table class="table">
+    <tr>
+      <td>Project</td>
+      <td>
+        <select name="project">
+          {% for prj in project_list %}
+          <option value="{{prj.id}}">{{prj.name}}</option>
+          {% endfor %}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Start time</td>
+      <td>
+        <input type="datetime-local" name="start_time" value={{now}}>
+      </td>
+    </tr>
+    <tr>
+      <td>End time</td>
+      <td>
+        <input type="datetime-local" name="end_time" value={{now}}>
+      </td>
+    </tr>
+    <tr>
+      <td>Content</td>
+      <td>
+        <input type="text" name="content">
+      </td>
+    </tr>
+  </table>
+
+  <input type="submit" value="Submit!">
+</form>
