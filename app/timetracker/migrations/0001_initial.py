@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('color', models.CharField(max_length=6)),
             ],
@@ -23,11 +24,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('start_time', models.DateTimeField()),
                 ('end_time', models.DateTimeField()),
                 ('content', models.CharField(max_length=200)),
-                ('project', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='timetracker.Project')),
+                ('project', models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT, to='timetracker.Project')),
             ],
         ),
     ]
