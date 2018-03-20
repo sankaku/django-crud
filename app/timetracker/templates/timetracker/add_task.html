@@ -1,12 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-{% if error_message %}
-<p><strong>{{error_message}}</strong></p>
-{% endif %}
-
-<form action="{% url 'timetracker:create_task' %}" method="post">
+<form action="{% url 'timetracker:save_task' %}" method="post">
 {% csrf_token %}
-
 
   <table class="table">
     <tr>
@@ -14,30 +9,83 @@
       <td>
         <select name="project">
           {% for prj in project_list %}
-          <option value="{{prj.id}}">{{prj.name}}</option>
+          <option value="{{prj.id}}" {% if selected_project == prj.id %} selected {% endif %} >{{prj.name}}</option>
           {% endfor %}
         </select>
+      </td>
+      <td>
+        {% for error in new_task_form.project.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
       </td>
     </tr>
     <tr>
       <td>Start time</td>
       <td>
-        <input type="datetime-local" name="start_time" value={{now}}>
+        {{new_task_form.start_time}}
+      </td>
+      <td>
+        {% for error in new_task_form.start_time.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
       </td>
     </tr>
     <tr>
       <td>End time</td>
       <td>
-        <input type="datetime-local" name="end_time" value={{now}}>
+        {{new_task_form.end_time}}
+      </td>
+      <td>
+        {% for error in new_task_form.end_time.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+
+        {% for error in new_task_form.non_field_errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
       </td>
     </tr>
     <tr>
       <td>Content</td>
       <td>
-        <input type="text" name="content">
+        {{new_task_form.content}}
+      </td>
+      <td>
+        {% for error in new_task_form.content.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
       </td>
     </tr>
   </table>
 
   <input type="submit" value="Submit!">
 </form>
+
+{% if new_task_form.errors %}
+<h3>errors list(example)</h3>
+  <strong>field errors</strong>
+    <ol>
+    {% for field in new_task_form %}
+      <li>{{field.name}}</li>
+      <ol>
+        {% for error in field.errors %}
+        <li><span class="text-warning"><strong>{{ error | escape}}</strong></span></li>
+        {% endfor %}
+      </ol>
+      {% endfor %}
+    </ol>
+
+  <strong>errors in start_time field</strong>
+    <ol>
+    {% for error in new_task_form.start_time.errors %}
+      <li><span class="text-warning"><strong>{{ error | escape}}</strong></span></li>
+    {% endfor %}
+    </ol>
+
+  <strong>non field errors</strong>
+    <ol>
+    {% for error in new_task_form.non_field_errors %}
+      <li><span class="text-warning"><strong>{{ error | escape}}</strong></span></li>
+    {% endfor %}
+    </ol>
+{% endif %}

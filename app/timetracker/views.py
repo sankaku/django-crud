@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Project, Task
 from django.urls import reverse
 from datetime import datetime
+from .forms import TaskForm
 
 
 def index(request):
@@ -16,31 +17,36 @@ def index(request):
 
 def add_task(request):
     project_list = Project.objects.order_by('id')
-    now = datetime.now().strftime("%Y-%m-%dT%H:%M")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    initial_time = {'start_time': now, 'end_time': now}
+    new_task_form = TaskForm(initial=initial_time)
     context = {
         'project_list': project_list,
-        'now': now,
+        'new_task_form': new_task_form,
     }
 
     return render(request, 'timetracker/add_task.html', context)
 
 
-def create_task(request):
-    try:
-        project_id = request.POST['project']
+def save_task(request):
+    form = TaskForm(request.POST)
+
+    if form.is_valid():
+        project_id = form.cleaned_data['project']
         project = get_object_or_404(Project, pk=project_id)
-        start_time = request.POST['start_time']
-        end_time = request.POST['end_time']
-        content = request.POST['content']
+        start_time = form.cleaned_data['start_time']
+        end_time = form.cleaned_data['end_time']
+        content = form.cleaned_data['content']
         task = Task(project=project, start_time=start_time,
                     end_time=end_time, content=content)
         task.save()
-    except (IndexError) as e:
+        return HttpResponseRedirect(reverse('timetracker:index'))
+
+    else:
         project_list = Project.objects.order_by('id')
         context = {
-            'error_message': 'Incorrect input!\n{0}\n{1}'.format(e.args),
             'project_list': project_list,
+            'new_task_form': form,
+            'selected_project': int(form.cleaned_data['project']),
         }
         return render(request, 'timetracker/add_task.html', context)
-    else:
-        return HttpResponseRedirect(reverse('timetracker:index'))

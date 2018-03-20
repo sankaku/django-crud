@@ -5,5 +5,5 @@ app_name = 'timetracker'
 urlpatterns = [
     path('', views.index, name='index'),
     path('task/new/', views.add_task, name='add_task'),
-    path('task/create/', views.create_task, name='create_task'),
+    path('task/save/', views.save_task, name='save_task'),
 ]
