@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<form action="{% url 'timetracker:save_project' %}" method="post">
+{% csrf_token %}
+
+  <table class="table">
+    <tr>
+      <td>Project Name</td>
+      <td>
+        {{new_project_form.name}}
+      </td>
+      <td>
+        {% for error in new_project_form.name.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+    <tr>
+      <td>Color code</td>
+      <td>
+        {{new_project_form.color}}
+      </td>
+      <td>
+        {% for error in new_project_form.color.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+  </table>
+
+  <input type="submit" value="Submit!">
+</form>
+

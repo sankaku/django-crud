@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError
 from datetime import datetime
+import re
 
 
 class TaskForm(forms.Form):
@@ -23,3 +24,17 @@ class TaskForm(forms.Form):
                 params={'start_time': start_time,
                         'end_time': end_time},
             )
+
+
+class ProjectForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    color = forms.CharField(max_length=6)
+
+    def clean_color(self):
+        color = self.cleaned_data.get('color')
+        if re.match('^[0-9a-f]{6}$', color) is None:
+            raise ValidationError(
+                _('Invalid color code'),
+                code='invalid color code'
+            )
+        return color

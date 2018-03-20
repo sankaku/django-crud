@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Project, Task
 from django.urls import reverse
 from datetime import datetime
-from .forms import TaskForm
+from .forms import TaskForm, ProjectForm
 
 
 def index(request):
@@ -50,3 +50,29 @@ def save_task(request):
             'selected_project': int(form.cleaned_data['project']),
         }
         return render(request, 'timetracker/add_task.html', context)
+
+
+def add_project(request):
+    new_project_form = ProjectForm()
+    context = {
+        'new_project_form': new_project_form,
+    }
+
+    return render(request, 'timetracker/add_project.html', context)
+
+
+def save_project(request):
+    form = ProjectForm(request.POST)
+
+    if form.is_valid():
+        name = form.cleaned_data['name']
+        color = form.cleaned_data['color']
+        project = Project(name=name, color=color)
+        project.save()
+        return HttpResponseRedirect(reverse('timetracker:index'))
+
+    else:
+        context = {
+            'new_project_form': form,
+        }
+        return render(request, 'timetracker/add_project.html', context)
