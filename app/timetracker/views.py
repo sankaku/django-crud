@@ -23,6 +23,26 @@ def list_projects(request):
     return render(request, 'timetracker/list_projects.html', context)
 
 
+def show_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    project_list = Project.objects.order_by('id')
+    initial_data = {
+        'project': task.project,
+        'start_time': task.start_time,
+        'end_time': task.end_time,
+        'content': task.content,
+    }
+    form = TaskForm(initial=initial_data)
+
+    context = {
+        'project_list': project_list,
+        'selected_project': task.project.id,
+        'task_form': form,
+    }
+
+    return render(request, 'timetracker/task.html', context)
+
+
 def add_task(request):
     project_list = Project.objects.order_by('id')
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
