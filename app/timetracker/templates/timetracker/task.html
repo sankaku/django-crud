@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>task - timetracker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<a href="{% url 'timetracker:index' %}">HOME</a>
+
+  <table class="table">
+    <tr>
+      <td>Project</td>
+      <td>
+        <select name="project">
+          {% for prj in project_list %}
+          <option value="{{prj.id}}" {% if selected_project == prj.id %} selected {% endif %} >{{prj.name}}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+        {% for error in task_form.project.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+    <tr>
+      <td>Start time</td>
+      <td>
+        {{task_form.start_time}}
+      </td>
+      <td>
+        {% for error in task_form.start_time.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+    <tr>
+      <td>End time</td>
+      <td>
+        {{task_form.end_time}}
+      </td>
+      <td>
+        {% for error in task_form.end_time.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+
+        {% for error in task_form.non_field_errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+    <tr>
+      <td>Content</td>
+      <td>
+        {{task_form.content}}
+      </td>
+      <td>
+        {% for error in task_form.content.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

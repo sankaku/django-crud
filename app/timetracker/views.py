@@ -15,6 +15,34 @@ def index(request):
     return render(request, 'timetracker/index.html', context)
 
 
+def list_projects(request):
+    projects_list = Project.objects.order_by('id')
+    context = {
+        'projects_list': projects_list,
+    }
+    return render(request, 'timetracker/list_projects.html', context)
+
+
+def show_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    project_list = Project.objects.order_by('id')
+    initial_data = {
+        'project': task.project,
+        'start_time': task.start_time,
+        'end_time': task.end_time,
+        'content': task.content,
+    }
+    form = TaskForm(initial=initial_data)
+
+    context = {
+        'project_list': project_list,
+        'selected_project': task.project.id,
+        'task_form': form,
+    }
+
+    return render(request, 'timetracker/task.html', context)
+
+
 def add_task(request):
     project_list = Project.objects.order_by('id')
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -50,6 +78,19 @@ def save_task(request):
             'selected_project': int(form.cleaned_data['project']),
         }
         return render(request, 'timetracker/add_task.html', context)
+
+
+def show_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    data = {
+        'name': project.name,
+        'color': project.color,
+    }
+    form = ProjectForm(initial=data)
+    context = {
+        'project_form': form,
+    }
+    return render(request, 'timetracker/project.html', context)
 
 
 def add_project(request):
