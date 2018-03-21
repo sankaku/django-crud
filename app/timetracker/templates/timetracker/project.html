@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>project - timetracker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<a href="{% url 'timetracker:list_projects' %}">show Projects</a>
+
+  <table class="table">
+    <tr>
+      <td>Project Name</td>
+      <td>
+        {{project_form.name}}
+      </td>
+      <td>
+        {% for error in project_form.name.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+    <tr>
+      <td>Color code</td>
+      <td>
+        {{project_form.color}}
+      </td>
+      <td>
+        {% for error in project_form.color.errors %}
+        <span class="text-warning"><strong>{{ error | escape}}</strong></span>
+        {% endfor %}
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+

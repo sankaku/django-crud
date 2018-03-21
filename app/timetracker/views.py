@@ -80,6 +80,19 @@ def save_task(request):
         return render(request, 'timetracker/add_task.html', context)
 
 
+def show_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    data = {
+        'name': project.name,
+        'color': project.color,
+    }
+    form = ProjectForm(initial=data)
+    context = {
+        'project_form': form,
+    }
+    return render(request, 'timetracker/project.html', context)
+
+
 def add_project(request):
     new_project_form = ProjectForm()
     context = {

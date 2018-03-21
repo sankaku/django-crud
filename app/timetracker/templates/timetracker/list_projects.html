@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>project list - timetracker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <a href="{% url 'timetracker:index' %}">HOME</a>
 {% if projects_list %}
 <table class="table">
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Color</th>
     </tr>
@@ -18,6 +19,7 @@
   <tbody>
   {% for project in projects_list %}
     <tr bgcolor="{{project.color}}">
+      <td><input type="button" value="edit" onclick="location.href='{% url 'timetracker:show_project' project.id %}'"></td>
       <td>{{project.name}}</td>
       <td>{{project.color}}</td>
     </tr>
