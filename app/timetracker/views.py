@@ -15,6 +15,14 @@ def index(request):
     return render(request, 'timetracker/index.html', context)
 
 
+def list_projects(request):
+    projects_list = Project.objects.order_by('id')
+    context = {
+        'projects_list': projects_list,
+    }
+    return render(request, 'timetracker/list_projects.html', context)
+
+
 def add_task(request):
     project_list = Project.objects.order_by('id')
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
