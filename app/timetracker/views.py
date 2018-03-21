@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Project, Task
 from django.urls import reverse
+from django.db import IntegrityError
 from datetime import datetime
 from .forms import TaskForm, ProjectForm
 
@@ -95,8 +96,24 @@ def show_project(request, project_id):
     form = ProjectForm(initial=data)
     context = {
         'project_form': form,
+        'project_id': project.id,
     }
     return render(request, 'timetracker/project.html', context)
+
+
+def delete_project(request, project_id):
+    """
+    Delete the single project.
+
+    If there are tasks belonging to the project,
+    the deletion is not executed and error message is displayed.
+    """
+    try:
+        Project.objects.filter(id=project_id).delete()
+    except IntegrityError:
+        return HttpResponse('Cannot delete the project. There are tasks belonging to it.')
+    else:
+        return HttpResponseRedirect(reverse('timetracker:index'))
 
 
 def add_project(request):
