@@ -2,6 +2,11 @@
 
 Welcome to <b>timetracker</b>.
 
+<ul>
+  <li><a href="{% url 'timetracker:add_task' %}">add Task</a></li>
+  <li><a href="{% url 'timetracker:add_project' %}">add Project</a></li>
+</ul>
+
 {% if tasks_list %}
 <table class="table">
   <thead>
