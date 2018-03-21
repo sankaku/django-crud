@@ -20,7 +20,7 @@ Welcome to <b>timetracker</b>.
   </thead>
   <tbody>
   {% for task in tasks_list %}
-    <tr>
+    <tr bgcolor="{{task.project.color}}">
       <td>{{task.project}}</td>
       <td>{{task.start_time}}</td>
       <td>{{task.end_time}}</td>
