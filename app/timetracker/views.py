@@ -38,9 +38,15 @@ def show_task(request, task_id):
         'project_list': project_list,
         'selected_project': task.project.id,
         'task_form': form,
+        'task_id': task.id,
     }
 
     return render(request, 'timetracker/task.html', context)
+
+
+def delete_task(request, task_id):
+    Task.objects.filter(id=task_id).delete()
+    return HttpResponseRedirect(reverse('timetracker:index'))
 
 
 def add_task(request):
